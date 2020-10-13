@@ -1,7 +1,34 @@
 package com.blz.hashmap;
 
-public class MyHashMap {
-	public static void main(String[] args) {
-		System.out.println("Welcome to creating a Hash_Map data structure using Java Generics.");
+import com.blz.datastructures.MyLinkedList;
+
+public class MyHashMap<K, V> {
+	MyLinkedList<K> myLinkedList;
+
+	public MyHashMap() {
+		this.myLinkedList = new MyLinkedList<K>();
+	}
+
+	// METHOD TO GET KEY AND VALUE
+	@SuppressWarnings("unchecked")
+	public V get(K key) {
+		MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) this.myLinkedList.search(key);
+		return (myMapNode == null) ? null : myMapNode.getValue();
+	}
+
+	// ADD A NEW KEY-VALUE OR UPDATE VALUE IN HASH-MAP
+	@SuppressWarnings("unchecked")
+	public void add(K key, V value) {
+		MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) this.myLinkedList.search(key);
+		if (myMapNode == null) {
+			myMapNode = new MyMapNode<>(key, value);
+			this.myLinkedList.append(myMapNode);
+		} else
+			myMapNode.setValue(value);
+	}
+
+	@Override
+	public String toString() {
+		return "MyHashMapNodes{ " + myLinkedList + '}';
 	}
 }
