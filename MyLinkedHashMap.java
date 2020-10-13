@@ -3,6 +3,7 @@ package com.blz.hashmap;
 import java.util.ArrayList;
 
 import com.blz.datastructures.MyLinkedList;
+import com.blz.datastructures.NodeInterface;
 
 public class MyLinkedHashMap<K, V> {
 	private final int NUM_OF_BUCKETS;
@@ -49,9 +50,24 @@ public class MyLinkedHashMap<K, V> {
 		} else
 			myMapNode.setValue(value);
 	}
-	
+
+	// REMOVE MAP-NODE OF THE GIVEN KEY
+	@SuppressWarnings("unchecked")
+	public void remove(K key) {
+		int index = this.getBucketIndex(key);
+		MyLinkedList<K> myLinkedList = this.myBucketArray.get(index);
+		MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) myLinkedList.search(key);
+		if (myMapNode != null) {
+			NodeInterface<K> tempMapNode = myLinkedList.getHead();
+			while (tempMapNode.getNext() != myMapNode) {
+				tempMapNode = tempMapNode.getNext();
+			}
+			tempMapNode.setNext(myMapNode.getNext());
+		}
+	}
+
 	@Override
 	public String toString() {
-		return "MyLinkedHashMap List {"+myBucketArray+"} ";
+		return "MyLinkedHashMap List {" + myBucketArray + "} ";
 	}
 }
